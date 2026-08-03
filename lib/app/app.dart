@@ -1,10 +1,15 @@
-import 'package:flutter/cupertino.dart';
+import 'package:copyflow/features/clipboard/presentation/pages/home_page.dart';
+import 'package:flutter/material.dart';
 
 class CopyFlowApp extends StatelessWidget {
   const CopyFlowApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return MaterialApp(
+      title: 'CopyFlow',
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
+    );
   }
 }
