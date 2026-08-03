@@ -1,5 +1,6 @@
 import 'package:copyflow/features/clipboard/data/models/clipboard_item.dart';
 import 'package:copyflow/features/clipboard/presentation/providers/clipboard_provider.dart';
+import 'package:copyflow/features/clipboard/presentation/widgets/clipboard_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,6 +14,11 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+  Future<void> _togglePin(ClipboardItem item) async {
+    final prov = ref.read(clipboardProvider.notifier);
+    await prov.togglePin(item);
+  }
+
   @override
   Widget build(BuildContext context) {
     final clipboardState = ref.watch(clipboardProvider);
@@ -25,9 +31,13 @@ class _HomePageState extends ConsumerState<HomePage> {
             return Center(child: CircularProgressIndicator());
           }
           final cardData = clipboardState[index];
-          return ListTile(
-            title: Text('Id ${cardData.id}'),
-            subtitle: Text('Text: ${cardData.text}'),
+          return ClipboardCard(
+            item: cardData,
+            onCopy: () {},
+            onDelete: () {},
+            onPin: () {
+              _togglePin(cardData);
+            },
           );
         },
       ),

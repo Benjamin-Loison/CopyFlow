@@ -37,12 +37,25 @@ class ClipboardNotifier extends Notifier<List<ClipboardItem>> {
     state = repository.getAll();
   }
 
-  Future<void> pinItem(String id) async {
+  Future<void> pinItem(String id) async {}
+
+  Future<void> togglePin(ClipboardItem item) async {
+    final repository = ref.read(clipboardRepositoryProvider);
+    final updatedItem = ClipboardItem(
+      id: item.id,
+      text: item.text,
+      createdAt: item.createdAt,
+      isPinned: !item.isPinned,
+    );
+
+    await repository.update(updatedItem);
+
+    state = repository.getAll();
   }
 
   Future<void> clear() async {
     final repository = ref.read(clipboardRepositoryProvider);
     await repository.clear();
-    state =[];
+    state = [];
   }
 }
