@@ -1,11 +1,17 @@
+import 'package:copyflow/core/services/hive_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await HiveService.init();
+
+  runApp(const ProviderScope(child: CopyFlowApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CopyFlowApp extends StatelessWidget {
+  const CopyFlowApp({super.key});
 
   @override
   Widget build(BuildContext context) {
