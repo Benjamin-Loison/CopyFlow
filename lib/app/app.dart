@@ -1,4 +1,6 @@
+import 'package:copyflow/features/clipboard/presentation/pages/clipboard_debug_screen.dart';
 import 'package:copyflow/features/clipboard/presentation/pages/home_page.dart';
+import 'package:copyflow/features/clipboard/presentation/pages/permission_gate.dart';
 import 'package:flutter/material.dart';
 
 class CopyFlowApp extends StatelessWidget {
@@ -9,7 +11,8 @@ class CopyFlowApp extends StatelessWidget {
     return MaterialApp(
       title: 'CopyFlow',
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      // home: PermissionGateScreen(child: HomePage()),
+      home: ClipboardDebugScreen(),
     );
   }
 }

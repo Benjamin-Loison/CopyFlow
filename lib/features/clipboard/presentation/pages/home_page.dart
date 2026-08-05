@@ -1,3 +1,4 @@
+import 'package:copyflow/core/services/flutter_clipboard_service.dart';
 import 'package:copyflow/features/clipboard/data/models/clipboard_item.dart';
 import 'package:copyflow/features/clipboard/presentation/providers/clipboard_provider.dart';
 import 'package:copyflow/features/clipboard/presentation/widgets/clipboard_card.dart';
@@ -20,29 +21,50 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    // final service = FlutterClipboardService();
+    // service.clipboardStream().listen((text) {
+    //   debugPrint("Flutter received: $text");
+
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text(text), duration: const Duration(seconds: 2)),
+    //   );
+    // });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final clipboardState = ref.watch(clipboardProvider);
     return Scaffold(
       appBar: AppBar(title: Text('Copy Flow'), centerTitle: true),
-      body: ListView.builder(
-        itemCount: clipboardState.length,
-        itemBuilder: (context, index) {
-          if (clipboardState.isEmpty) {
-            return Center(child: CircularProgressIndicator());
-          }
-          final cardData = clipboardState[index];
-          return ClipboardCard(
-            item: cardData,
-            onCopy: () {},
-            onDelete: () {},
-            onPin: () {
-              _togglePin(cardData);
-            },
-          );
-        },
+      body: Column(
+        children: [
+          // TextField(),
+          Expanded(
+            child: ListView.builder(
+              itemCount: clipboardState.length,
+              itemBuilder: (context, index) {
+                if (clipboardState.isEmpty) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                final cardData = clipboardState[index];
+                return ClipboardCard(
+                  item: cardData,
+                  onCopy: () {},
+                  onDelete: () {},
+                  onPin: () {
+                    _togglePin(cardData);
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: ElevatedButton.icon(
-        onPressed: () {
+        onPressed: () async {
           ref
               .read(clipboardProvider.notifier)
               .addItem(
