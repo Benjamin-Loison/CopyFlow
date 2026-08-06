@@ -21,13 +21,16 @@ class ClipboardItemAdapter extends TypeAdapter<ClipboardItem> {
       text: fields[1] as String,
       createdAt: fields[2] as DateTime,
       isPinned: fields[3] == null ? false : fields[3] as bool,
+      category: fields[4] == null
+          ? ClipboardCategory.text
+          : fields[4] as ClipboardCategory,
     );
   }
 
   @override
   void write(BinaryWriter writer, ClipboardItem obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +38,9 @@ class ClipboardItemAdapter extends TypeAdapter<ClipboardItem> {
       ..writeByte(2)
       ..write(obj.createdAt)
       ..writeByte(3)
-      ..write(obj.isPinned);
+      ..write(obj.isPinned)
+      ..writeByte(4)
+      ..write(obj.category);
   }
 
   @override

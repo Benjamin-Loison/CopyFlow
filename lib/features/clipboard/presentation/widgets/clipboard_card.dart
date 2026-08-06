@@ -2,123 +2,75 @@ import 'package:copyflow/core/utils/app_colors.dart';
 import 'package:copyflow/core/utils/app_radius.dart';
 import 'package:copyflow/core/utils/app_spacing.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
-import '../../data/models/clipboard_item.dart';
 
 class ClipboardCard extends StatelessWidget {
   const ClipboardCard({
     super.key,
-    required this.item,
-    required this.onCopy,
-    required this.onDelete,
-    required this.onPin,
+    required this.text,
+    required this.time,
+    this.pinned = false,
   });
 
-  final ClipboardItem item;
-  final VoidCallback onCopy;
-  final VoidCallback onDelete;
-  final VoidCallback onPin;
+  final String text;
+  final String time;
+  final bool pinned;
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      margin: EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-        vertical: AppSpacing.xs,
-      ),
-      shape: RoundedRectangleBorder(
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        side: BorderSide(color: Theme.of(context).dividerColor),
+        border: Border.all(
+          color: Colors.grey.shade200,
+        ),
       ),
-      child: Padding(
-        padding: EdgeInsets.all(AppSpacing.md),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// Clipboard Text
-            Text(
-              item.text,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodyLarge,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            text,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
             ),
-
-            const SizedBox(height: 16),
-
-            Row(
-              children: [
-                Icon(
-                  Icons.access_time_rounded,
-                  size: 16,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          Row(
+            children: [
+              Text(
+                time,
+                style: const TextStyle(
                   color: AppColors.muted,
                 ),
-
-                const SizedBox(width: 6),
-
-                Text(
-                  DateFormat("hh:mm a").format(item.createdAt),
-                  style: Theme.of(context).textTheme.bodySmall,
+              ),
+              const Spacer(),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.copy_rounded),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  pinned
+                      ? Icons.push_pin
+                      : Icons.push_pin_outlined,
                 ),
-
-                if (item.isPinned) ...[
-                  const SizedBox(width: 12),
-
-                  const Icon(Icons.push_pin_rounded, size: 18),
+              ),
+              PopupMenuButton(
+                itemBuilder: (_) => const [
+                  PopupMenuItem(
+                    value: 1,
+                    child: Text("Delete"),
+                  ),
                 ],
-
-                const Spacer(),
-
-                IconButton(
-                  tooltip: "Copy",
-                  onPressed: onCopy,
-                  icon: const Icon(Icons.content_copy_rounded),
-                ),
-
-                PopupMenuButton<String>(
-                  onSelected: (value) {
-                    switch (value) {
-                      case 'pin':
-                        onPin();
-                        break;
-
-                      case 'delete':
-                        onDelete();
-                        break;
-                    }
-                  },
-                  itemBuilder: (_) => [
-                    PopupMenuItem(
-                      value: 'pin',
-                      child: Row(
-                        children: [
-                          Icon(
-                            item.isPinned
-                                ? Icons.push_pin_outlined
-                                : Icons.push_pin_rounded,
-                          ),
-                          const SizedBox(width: 10),
-                          Text(item.isPinned ? "Unpin" : "Pin"),
-                        ],
-                      ),
-                    ),
-                    const PopupMenuItem(
-                      value: 'delete',
-                      child: Row(
-                        children: [
-                          Icon(Icons.delete_outline_rounded),
-                          SizedBox(width: 10),
-                          Text("Delete"),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

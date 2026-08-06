@@ -1,81 +1,39 @@
-import 'package:copyflow/core/services/flutter_clipboard_service.dart';
-import 'package:copyflow/features/clipboard/data/models/clipboard_item.dart';
-import 'package:copyflow/features/clipboard/presentation/providers/clipboard_provider.dart';
-import 'package:copyflow/features/clipboard/presentation/widgets/clipboard_card.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:copyflow/core/utils/app_colors.dart';
+import 'package:copyflow/core/utils/app_spacing.dart';
+import 'package:copyflow/features/clipboard/presentation/widgets/clipboard_appbar.dart';
+import 'package:copyflow/features/clipboard/presentation/widgets/clipboard_list.dart';
+import 'package:copyflow/features/clipboard/presentation/widgets/clipboard_searchbar.dart';
+import 'package:copyflow/features/clipboard/presentation/widgets/permission_banner.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uuid/uuid.dart';
 
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends ConsumerState<HomePage> {
-  Future<void> _togglePin(ClipboardItem item) async {
-    final prov = ref.read(clipboardProvider.notifier);
-    await prov.togglePin(item);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    // final service = FlutterClipboardService();
-    // service.clipboardStream().listen((text) {
-    //   debugPrint("Flutter received: $text");
-
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     SnackBar(content: Text(text), duration: const Duration(seconds: 2)),
-    //   );
-    // });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final clipboardState = ref.watch(clipboardProvider);
     return Scaffold(
-      appBar: AppBar(title: Text('Copy Flow'), centerTitle: true),
-      body: Column(
-        children: [
-          // TextField(),
-          Expanded(
-            child: ListView.builder(
-              itemCount: clipboardState.length,
-              itemBuilder: (context, index) {
-                if (clipboardState.isEmpty) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                final cardData = clipboardState[index];
-                return ClipboardCard(
-                  item: cardData,
-                  onCopy: () {},
-                  onDelete: () {},
-                  onPin: () {
-                    _togglePin(cardData);
-                  },
-                );
-              },
-            ),
+      backgroundColor: AppColors.surface,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.md),
+          child: Column(
+            children: [
+              const ClipboardAppBar(),
+
+              const SizedBox(height: AppSpacing.lg),
+
+              const ClipboardSearchBar(),
+
+              const SizedBox(height: AppSpacing.md),
+
+              const PermissionBanner(),
+
+              const SizedBox(height: AppSpacing.lg),
+
+              const Expanded(child: ClipboardList()),
+            ],
           ),
-        ],
-      ),
-      floatingActionButton: ElevatedButton.icon(
-        onPressed: () async {
-          ref
-              .read(clipboardProvider.notifier)
-              .addItem(
-                ClipboardItem(
-                  id: const Uuid().v4(), // shit in notifier
-                  text: "Hello CopyFlow",
-                  createdAt: DateTime.now(),
-                ),
-              );
-        },
-        label: Icon(Icons.add),
+        ),
       ),
     );
   }

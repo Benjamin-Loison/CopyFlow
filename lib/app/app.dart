@@ -11,8 +11,7 @@ class CopyFlowApp extends StatelessWidget {
     return MaterialApp(
       title: 'CopyFlow',
       debugShowCheckedModeBanner: false,
-      // home: PermissionGateScreen(child: HomePage()),
-      home: ClipboardDebugScreen(),
+      home: PermissionGateScreen(child: HomePage()),
     );
   }
 }

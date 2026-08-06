@@ -11,6 +11,11 @@ import android.view.WindowManager
 object OverlayClipboardReader {
 
     fun readClipboard(context: Context, onResult: (String?) -> Unit) {
+
+        if (!hasOverlayPermission(context)) {
+            onResult(null)
+            return
+        }   
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val overlayView = View(context)
 

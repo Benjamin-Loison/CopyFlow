@@ -3,16 +3,19 @@
 // Check in to version control
 
 import 'package:hive_ce/hive_ce.dart';
+import 'package:copyflow/features/clipboard/data/models/clipboard_category.dart';
 import 'package:copyflow/features/clipboard/data/models/clipboard_item.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
+    registerAdapter(ClipboardCategoryAdapter());
     registerAdapter(ClipboardItemAdapter());
   }
 }
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
+    registerAdapter(ClipboardCategoryAdapter());
     registerAdapter(ClipboardItemAdapter());
   }
 }

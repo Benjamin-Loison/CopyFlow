@@ -24,10 +24,6 @@ class ClipboardAccessibilityService : AccessibilityService() {
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         event ?: return
-
-        // Broad net: try a clipboard read after ANY of these events.
-        // We don't try to guess intent anymore — we just check if the
-        // clipboard value actually changed, and only emit if it did.
         android.os.Handler(mainLooper).postDelayed({
             OverlayClipboardReader.readClipboard(applicationContext) { text ->
                 if (text != null && text.isNotBlank() && text != lastSeenClip) {
