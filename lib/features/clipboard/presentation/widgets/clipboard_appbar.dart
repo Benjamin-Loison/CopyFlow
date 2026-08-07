@@ -1,6 +1,6 @@
 import 'package:copyflow/core/utils/app_colors.dart';
+import 'package:copyflow/features/settings/settings.dart';
 import 'package:flutter/material.dart';
-
 
 class ClipboardAppBar extends StatelessWidget {
   const ClipboardAppBar({super.key});
@@ -20,7 +20,12 @@ class ClipboardAppBar extends StatelessWidget {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SettingsScreen()),
+            );
+          },
           icon: const Icon(
             Icons.settings_rounded,
             color: AppColors.textPrimary,
