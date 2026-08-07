@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:copyflow/core/services/clipboard_bridge.dart';
 import 'package:copyflow/core/utils/app_colors.dart';
 import 'package:copyflow/core/utils/app_spacing.dart';
@@ -8,7 +7,6 @@ import 'package:copyflow/features/clipboard/presentation/providers/clipboard_sea
 import 'package:copyflow/features/clipboard/presentation/widgets/clipboard_appbar.dart';
 import 'package:copyflow/features/clipboard/presentation/widgets/clipboard_list.dart';
 import 'package:copyflow/features/clipboard/presentation/widgets/clipboard_searchbar.dart';
-import 'package:copyflow/features/clipboard/presentation/widgets/permission_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -9,7 +9,6 @@ Capture, view, and reuse your clipboard history even when the app isn't open.
 [![Platform](https://img.shields.io/badge/Platform-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](#)
 [![Flutter](https://img.shields.io/badge/Built%20with-Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](#)
 [![Kotlin](https://img.shields.io/badge/Native-Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)](#)
-[![License](https://img.shields.io/badge/License-TBD-lightgrey?style=for-the-badge)](#)
 [![Open Source](https://img.shields.io/badge/Open%20Source-💙-blue?style=for-the-badge)](#)
 
 </div>
