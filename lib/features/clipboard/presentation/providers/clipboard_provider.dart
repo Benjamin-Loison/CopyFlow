@@ -1,8 +1,10 @@
 import 'package:copyflow/features/clipboard/data/datasources/hive_clipboard_datasource.dart';
+import 'package:copyflow/features/clipboard/data/models/clipboard_classifier.dart';
 import 'package:copyflow/features/clipboard/data/models/clipboard_item.dart';
 import 'package:copyflow/features/clipboard/data/repositories/clipboard_repository.dart';
 import 'package:copyflow/features/clipboard/data/repositories/hive_clipboard_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 final hiveClipboardDataSourceProvider = Provider<HiveClipboardDataSource>((
   ref,
@@ -28,6 +30,24 @@ class ClipboardNotifier extends Notifier<List<ClipboardItem>> {
     final repository = ref.read(clipboardRepositoryProvider);
 
     await repository.add(item);
+    state = repository.getAll();
+  }
+
+  Future<void> onClipboardChanged(String text) async {
+    if (state.isNotEmpty && state.first.text == text) {
+      return;
+    }
+    final item = ClipboardItem(
+      id: const Uuid().v4(),
+      text: text,
+      createdAt: DateTime.now(),
+      category: ClipboardClassifier.classify(text),
+    );
+
+    final repository = ref.read(clipboardRepositoryProvider);
+
+    await repository.add(item);
+
     state = repository.getAll();
   }
 

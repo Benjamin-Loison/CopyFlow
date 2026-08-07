@@ -19,6 +19,8 @@ dependencies:
   hive_ce: ^2.19.3
   hive_ce_flutter: ^2.3.4
   hive_ce_generator: ^1.11.2
+  flutter_slidable: ^4.0.3
+  timeago: ^3.7.1
 
 
 dev_dependencies:
