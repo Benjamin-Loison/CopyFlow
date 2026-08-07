@@ -4,6 +4,7 @@ import 'package:copyflow/core/services/clipboard_bridge.dart';
 import 'package:copyflow/core/utils/app_colors.dart';
 import 'package:copyflow/core/utils/app_spacing.dart';
 import 'package:copyflow/features/clipboard/presentation/providers/clipboard_provider.dart';
+import 'package:copyflow/features/clipboard/presentation/providers/clipboard_search_provider.dart';
 import 'package:copyflow/features/clipboard/presentation/widgets/clipboard_appbar.dart';
 import 'package:copyflow/features/clipboard/presentation/widgets/clipboard_list.dart';
 import 'package:copyflow/features/clipboard/presentation/widgets/clipboard_searchbar.dart';
@@ -37,7 +38,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final clipboardItems = ref.watch(clipboardProvider);
+    final items = ref.watch(filteredClipboardProvider);
     return Scaffold(
       backgroundColor: AppColors.surface,
       body: SafeArea(
@@ -53,13 +54,10 @@ class _HomePageState extends ConsumerState<HomePage> {
 
               const SizedBox(height: AppSpacing.md),
 
-              const PermissionBanner(),
-
+              // const PermissionBanner(),
               const SizedBox(height: AppSpacing.lg),
 
-              Expanded(child: ClipboardList(
-                items: clipboardItems,
-              )),
+              Expanded(child: ClipboardList(items: items)),
             ],
           ),
         ),

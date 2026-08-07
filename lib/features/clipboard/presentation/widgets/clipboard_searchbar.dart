@@ -1,20 +1,20 @@
 import 'package:copyflow/core/utils/app_colors.dart';
 import 'package:copyflow/core/utils/app_radius.dart';
+import 'package:copyflow/features/clipboard/presentation/providers/clipboard_search_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
-class ClipboardSearchBar extends StatelessWidget {
-  const ClipboardSearchBar({
-    super.key,
-    this.onChanged,
-  });
+class ClipboardSearchBar extends ConsumerWidget {
+  const ClipboardSearchBar({super.key, this.onChanged});
 
   final ValueChanged<String>? onChanged;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return TextField(
-      onChanged: onChanged,
+      onChanged: (value) {
+        ref.read(clipboardSearchProvider.notifier).state = value;
+      },
       decoration: InputDecoration(
         hintText: "Search clipboard...",
         prefixIcon: const Icon(Icons.search_rounded),
@@ -31,10 +31,7 @@ class ClipboardSearchBar extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.lg),
-          borderSide: const BorderSide(
-            color: AppColors.primary,
-            width: 1.5,
-          ),
+          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
         ),
       ),
     );
